@@ -35,3 +35,19 @@ app.get("/", (req, res) => {
 app.get("/notes", async (req, res) => {
   res.sendFile(path.join(__dirname, "public", "notes.html"));
 });
+
+app.get("/api/notes", async (req, res) => {
+  res.sendFile(dbLocation);
+});
+
+app.post("/api/notes", async (req, res) => {
+  const savedNotes = (await fs.readFile(dbLocation, "utf8")) || [];
+  const messageBody = req.body;
+  const notes = JSON.parse(savedNotes);
+  messageBody.id = await getID();
+  notes.push(messageBody);
+
+  await fs.writeFile(dbLocation, JSON.stringify(notes));
+  res.sendFile(dbLocation, JSON.stringify(notes));
+  res.end();
+});
