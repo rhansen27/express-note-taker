@@ -51,3 +51,11 @@ app.post("/api/notes", async (req, res) => {
   res.sendFile(dbLocation, JSON.stringify(notes));
   res.end();
 });
+
+app.delete("/api/notes/:id", async (req, res) => {
+  const savedNotes = (await fs.readFile(dbLocation, "utf8")) || [];
+  const notes = JSON.parse(savedNotes);
+  const { id } = req.params;
+
+  const filteredNotes = notes.filter((note) => note.id != id);
+});
