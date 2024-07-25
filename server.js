@@ -1,5 +1,5 @@
 const express = require("express");
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 const path = require("path");
 const fs = require("fs/promises");
@@ -15,7 +15,7 @@ async function getID() {
   const notes = JSON.parse(savedNoted);
   let randomNumber = getRandomInt();
   notes.forEach((note) => {
-    if (!userdIDS.includes(note.id)) {
+    if (!usedIDS.includes(note.id)) {
       usedIDS.push(note.id);
     }
   });
@@ -37,7 +37,7 @@ app.get("/notes", async (req, res) => {
 });
 
 app.get("/api/notes", async (req, res) => {
-  res.sendFile(dbLocation);
+  res.sendFile("./db/db.json", { root: __dirname });
 });
 
 app.post("/api/notes", async (req, res) => {
