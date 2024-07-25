@@ -58,4 +58,10 @@ app.delete("/api/notes/:id", async (req, res) => {
   const { id } = req.params;
 
   const filteredNotes = notes.filter((note) => note.id != id);
+  await fs.writeFile(dbLocation, JSON.stringify(filteredNotes));
+  res.end();
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
