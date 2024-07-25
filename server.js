@@ -25,3 +25,13 @@ async function getID() {
 
   return randomNumber;
 }
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+app.get("/notes", async (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "notes.html"));
+});
